@@ -8,20 +8,17 @@ import 'package:coffe_shop/services/product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //  Environment variables (safe for GitHub)
-  const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-  const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+  await dotenv.load(fileName: ".env");
 
-  // Ensure keys exist
-  if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
-    throw Exception('Supabase credentials are missing');
-  }
-
-  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  );
 
   final authCubit = AuthCubit();
   final themeCubit = ThemeModeCubit();
@@ -40,7 +37,7 @@ void main() async {
         BlocProvider.value(value: authCubit),
         BlocProvider.value(value: themeCubit),
       ],
-      child: const CoffeShop(),
+      child: CoffeShop(),
     ),
   );
 }
