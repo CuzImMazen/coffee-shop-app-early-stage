@@ -8,3 +8,5 @@ It is a simple coffee shop app demonstrating:
 - Supabase integration for authentication and products
 
 > ⚠️ Note: This is an early project and does not reflect my current Flutter skill level.
+
+> 💡 i used real-time data base for learning purposes to be comfortable with dart Streams. 
